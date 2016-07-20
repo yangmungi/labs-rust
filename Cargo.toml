@@ -1,0 +1,7 @@
+[package]
+name = "rustbase"
+version = "0.1.0"
+authors = ["Yangmun Choi <yangmungi@ucla.edu>"]
+publish = false
+
+[dependencies]
