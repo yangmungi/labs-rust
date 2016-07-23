@@ -8,22 +8,42 @@ use std::thread;
 struct ChangeRequest <Key, Value> {
     key: Key,
     old: Option<Value>,
-    new: Value,
+    new: Option<Value>,
 }
 
 fn logical_handle<KeyType: Eq + Hash, ValueType: Eq>(mut old_values: HashMap<KeyType, ValueType>, change_request: ChangeRequest<KeyType, ValueType>) {
     let key = change_request.key;
     let maybe_old_expected_value = change_request.old;
-    let new_value = change_request.new;
+    let maybe_new_value = change_request.new;
 
     match old_values.entry(key) {
         Entry::Occupied(mut occupied) => match maybe_old_expected_value {
-            Some(old_value) => if old_value == *occupied.get() { Some(occupied.insert(new_value)); },
-            None => ()
+            Some(old_value) => if old_value == *occupied.get() { 
+                match maybe_new_value {
+                    Some(new_value) => {
+                        occupied.insert(new_value);
+                        ()
+                    },
+                    None => {
+                        occupied.remove();
+                        ()
+                    }
+                }
+            },
+            None => (),
         },
         Entry::Vacant(v) => match maybe_old_expected_value {
             Some(_) => (),
-            None => { v.insert(new_value); () }
+            None => { 
+                match maybe_new_value {
+                    Some(new_value) => {
+                        v.insert(new_value); 
+                    },
+                    None => { 
+                        ()
+                    }
+                }
+            }
         }
     }
 }
