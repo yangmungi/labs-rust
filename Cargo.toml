@@ -1,0 +1,6 @@
+[package]
+name = "rustrand"
+version = "0.1.0"
+authors = ["Yangmun Choi <yangmungi@ucla.edu>"]
+
+[dependencies]
