@@ -1,6 +1,5 @@
 extern crate rand;
 
-use std::io;
 use std::env::args;
 use std::i32;
 
