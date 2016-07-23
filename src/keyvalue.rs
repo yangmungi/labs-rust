@@ -1,5 +1,7 @@
 use std::sync::mpsc;
 
+use std::collections::hash_map::{HashMap,Entry};
+
 
 fn main() {
     // open append file
@@ -12,3 +14,4 @@ fn main() {
     // input data type
 
 }
+
